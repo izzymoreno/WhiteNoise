@@ -1,0 +1,86 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Image1: TImage;
+    Image2: TImage;
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  Xmin,Ymin,Xmax,Ymax: word;
+implementation
+
+uses Unit2;
+
+{$R *.dfm}
+
+Procedure LINE(x1,y1,x2,y2:integer);
+begin
+Form1.Image1.Canvas.Brush.Color:=clWhite;
+Form1.Image1.Canvas.MoveTo(x1,y1);
+Form1.Image1.Canvas.LineTo(x2,y2);
+end;
+
+PROCEDURE LOAD_DATE;
+BEGIN
+Xmin:=0;
+Ymin:=0;
+Xmax:=690;
+Ymax:=480;
+Form1.Image1.Canvas.Brush.Color:=clSilver;
+Form1.Image1.Canvas.FillRect(Rect(Xmin,Ymin,Xmax,Ymax));
+//Form1.Image1.Canvas.Brush.Color:=clBlack;
+END;
+
+PROCEDURE XY_DEKART(ox1,oy1,ox2,oy2,ox3,oy3,ox4,oy4:integer;scalex,scaley,color:TColor);
+VAR
+x1,y1,x2,y2:integer;
+BEGIN
+x1:=Xmin;
+y1:=Ymin;
+x2:=Xmax;
+y2:=Ymin;
+While y1<Ymax do
+   begin
+   Form1.Image2.Canvas.Pen.Color:=clWhite;
+   LINE(x1,y1,x2,y2);
+   y1:=y1+scaley;
+   y2:=y2+scaley;
+   end;
+x1:=Xmin;
+y1:=Ymin;
+x2:=Xmin;
+y2:=Ymax;
+While x1<Xmax do
+   begin
+   Form1.Image2.Canvas.Pen.Color:=clWhite;
+   LINE(x1,y1,x2,y2);
+   x1:=x1+scaley;
+   x2:=x2+scaley;
+   end;
+END;
+
+procedure TForm1.FormCreate(Sender: TObject);
+   BEGIN
+   LOAD_DATE;
+   XY_DEKART(50,0,50,300,50,300,250,300,10,10,clBlack);
+   Form1.Image1.Canvas.Pen.Color:=clWhite;
+   LINE(180,200,480,200);
+   Form1.Image2.Canvas.Brush.Color:=clBlack;
+   Form1.Image2.Canvas.FillRect(Rect(0,0,Form1.Image2.Width,Form1.Image2.Height));
+   Form1.Image2.Canvas.Font.Color:=clRed;
+   Form1.Image2.Canvas.TextOut(10,0,'Воздушно-космический самолёт (Устройство №8559): внешний вид');
+   end;
+end.
